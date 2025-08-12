@@ -1,0 +1,44 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      
+  pre_build:
+    commands:
+      - echo Pre-build phase started on `date`
+      # Install frontend dependencies
+      - cd frontend
+      - npm install
+      - cd ../backend
+      - npm install
+      - cd ..
+      
+  build:
+    commands:
+      - echo Build phase started on `date`
+      # Build React frontend
+      - cd frontend
+      - npm run build
+      - cd ..
+      # Copy backend files for deployment
+      - mkdir -p backend-deploy
+      - cp -r backend/* backend-deploy/
+      - cp -r backend/node_modules backend-deploy/ || echo "node_modules not found, will install on target"
+      
+  post_build:
+    commands:
+      - echo Build phase completed on `date`
+      # Sync frontend build to S3
+      - aws s3 sync frontend/build/ s3://$FRONTEND_BUCKET_NAME --delete
+      - echo Frontend deployed to S3
+
+artifacts:
+  files:
+    - 'backend-deploy/**/*'
+    - 'appspec.yml'
+    - 'scripts/**/*'
+  name: backend-artifact-$(date +%Y-%m-%d-%H-%M-%S)
