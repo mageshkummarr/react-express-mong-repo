@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://35.154.213.99:5000/api';
 
 
 export const addFlight = async (flightData) => {
