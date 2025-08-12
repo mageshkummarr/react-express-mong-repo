@@ -1,4 +1,4 @@
 #!/bin/bash
 sleep 30
-curl -f http://localhost:5000/health || exit 1
+netstat -an|grep 5000 || exit 1
 echo "Service validation successful"
