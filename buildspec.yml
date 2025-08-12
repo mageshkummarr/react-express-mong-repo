@@ -28,7 +28,7 @@ phases:
       - mkdir -p backend-deploy
       - cp -r backend/* backend-deploy/
       - cp -r backend/node_modules backend-deploy/ || echo "node_modules not found, will install on target"
-      
+      - cp backend/.env backend-deploy/ 2>/dev/null || true 
   post_build:
     commands:
       - echo Build phase completed on `date`
