@@ -9,10 +9,12 @@ permissions:
     owner: ec2-user
     group: ec2-user
     mode: 755
-  - object: /home/ec2-user/app/server.js
+    type: directory
+  - object: /home/ec2-user/app
     owner: ec2-user
     group: ec2-user
     mode: 755
+    type: file
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies.sh
