@@ -33,7 +33,7 @@ phases:
     commands:
       - echo Build phase completed on `date`
       # Sync frontend build to S3
-      - aws s3 sync frontend/build/ s3://demo-frontend-bucket-react --delete
+      - aws s3 sync frontend/build/ s3://$FRONTEND_BUCKET_NAME --delete
       - echo Frontend deployed to S3
 
 artifacts:
